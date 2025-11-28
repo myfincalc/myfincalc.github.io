@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VijayFinCalc — EMI & Cashflow Tools</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/animate.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="brand">
+        <img src="assets/logo.png" alt="VijayFinCalc" class="logo" />
+        <div class="brand-text">
+          <div class="brand-title">VijayFinCalc</div>
+          <div class="brand-sub">Smart EMI • Cashflow • Eligibility</div>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <a href="index.html#about" class="nav-link">About</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+        <a href="login.html" class="nav-link">Login</a>
+        <a href="index.html#tnc" class="nav-link">T&amp;C</a>
+        <a href="index.html#refund" class="nav-link">Refund</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-left">
+        <h1>EMI & Cashflow Calculators — Professional, Accurate</h1>
+        <p class="lead">Broken-period interest (365-day), EMI, customer-wise cashflows (inflow / outflow), eligibility checks and PDF/Excel reports — ready to use and share.</p>
+
+        <div class="cta-row">
+          <a class="btn primary" href="emi.html">Open EMI Calculator</a>
+          <a class="btn ghost" href="cashflow.html">Open Cashflow Tool</a>
+        </div>
+
+        <ul class="features">
+          <li>Broken-period interest (per-day, 365 days)</li>
+          <li>Customer-wise reports: PDF &amp; Excel (filename: CustomerName_Report_DATETIME)</li>
+          <li>GPS &amp; IST timestamp embedded into reports</li>
+          <li>Admin dashboard &amp; export (local) — future cloud sync ready</li>
+        </ul>
+      </div>
+
+      <div class="hero-right">
+        <img src="assets/hero.jpg" alt="Hero" class="hero-img" />
+      </div>
+    </section>
+
+    <section id="about" class="card">
+      <h2>About VijayFinCalc</h2>
+      <p>VijayFinCalc helps branch officers and loan officers quickly compute EMI, broken period interest, and generate customer-friendly cashflow reports. Designed for speed and clarity — deploy on GitHub Pages for free hosting.</p>
+    </section>
+
+    <section class="card" id="how">
+      <h2>How it works</h2>
+      <ol>
+        <li>Open EMI or Cashflow tool — enter customer details.</li>
+        <li>Run calculation — view per-day interest, EMI, and charts.</li>
+        <li>Save customer record locally and export PDF/Excel with timestamp &amp; GPS.</li>
+        <li>Check Admin to view saved visitors &amp; customers. Future login will allow cloud saves.</li>
+      </ol>
+    </section>
+
+    <section id="contact" class="card">
+      <h2>Contact</h2>
+      <p>Email: badhanivijay8@gmail.com • Phone: 9411343521</p>
+    </section>
+
+    <section id="tnc" class="card">
+      <h2>Terms &amp; Conditions</h2>
+      <p>Placeholder — you will provide the final T&amp;C and refund text. These pages are prewired.</p>
+    </section>
+
+    <section id="refund" class="card">
+      <h2>Refund &amp; Cancellation</h2>
+      <p>Placeholder — add your refund policy here when ready.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">© <span id="year"></span> VijayFinCalc — Built with ♥</div>
+  </footer>
+
+  <script>document.getElementById('year').innerText = new Date().getFullYear();</script>
+  <script src="js/main.js"></script>
+</body>
+</html>

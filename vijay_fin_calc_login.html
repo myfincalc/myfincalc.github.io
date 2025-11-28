@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login — VijayFinCalc</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">Vijay <span>FinCalc</span></div>
+    <nav class="nav"><a href="index.html">Home</a></nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card" style="max-width:420px;margin:30px auto">
+      <h2>Login</h2>
+      <p class="small">Simple local-login for demo (stores user in localStorage). For production, replace with server-side auth.</p>
+      <label>Email</label>
+      <input id="loginEmail" type="email" placeholder="you@example.com">
+      <label>Password</label>
+      <input id="loginPwd" type="password" placeholder="password">
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button id="loginBtn" class="primary">Login</button>
+        <button id="goSignup" class="primary" style="background:#6b4cff">Sign up</button>
+      </div>
+      <div id="loginMsg" style="margin-top:12px;color:#6b7280;font-size:14px"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap">© <span id="year"></span> VijayFinCalc</div></footer>
+  <script>document.getElementById('year').innerText=new Date().getFullYear();</script>
+
+  <script>
+    function loadUsers(){try{return JSON.parse(localStorage.getItem('vfc_users'))||[];}catch(e){return []}}
+    function saveUsers(u){localStorage.setItem('vfc_users',JSON.stringify(u))}
+
+    document.getElementById('goSignup').addEventListener('click',()=>{ location.href='signup.html' });
+
+    document.getElementById('loginBtn').addEventListener('click',()=>{
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const pwd = document.getElementById('loginPwd').value;
+      if(!email || !pwd) return document.getElementById('loginMsg').innerText='Enter email & password';
+      const users = loadUsers(); const user = users.find(u=>u.email===email && u.pwd===pwd);
+      if(user){ localStorage.setItem('vfc_active_user', JSON.stringify({email:user.email,name:user.name})); document.getElementById('loginMsg').innerText='Logged in — redirecting to Admin...'; setTimeout(()=>location.href='admin.html',800); }
+      else document.getElementById('loginMsg').innerText='Invalid credentials. Please sign up.';
+    });
+  </script>
+</body>
+</html>

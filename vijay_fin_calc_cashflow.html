@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cashflow Calculator - Vijay Fin Calc</title>
+    <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">Vijay <span>FinCalc</span></div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="emi.html">EMI</a>
+            <a class="active" href="cashflow.html">Cashflow</a>
+            <a href="admin.html">Admin</a>
+            <a href="login.html" class="login-btn">Login</a>
+        </nav>
+    </header>
+
+    <section class="page-title">
+        <h1>Cashflow Calculator</h1>
+        <p>Calculate customer monthly disposable income and loan eligibility</p>
+    </section>
+
+    <section class="calc-container">
+        <div class="calc-box">
+            <h2>Customer Information</h2>
+            <div class="group">
+                <label>Customer Name</label>
+                <input type="text" id="custName" placeholder="Enter Customer Name" />
+            </div>
+            <div class="group">
+                <label>Calculation Basis</label>
+                <select id="basis" onchange="switchBasis()">
+                    <option value="sales">SALES BASIS</option>
+                    <option value="income">INCOME BASIS</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="salesSection" class="calc-box">
+            <h3>Sales Basis</h3>
+            <div class="group"><label>Per Day Sales</label><input type="number" id="perDaySales"></div>
+            <div class="group"><label>Margin (%)</label><input type="number" id="margin"></div>
+            <div class="group"><label>Direct Expenses</label><input type="number" id="directExp"></div>
+            <div class="group"><label>Household Expenses</label><input type="number" id="householdExp"></div>
+            <div class="group"><label>Children Expenses</label><input type="number" id="childExp"></div>
+            <div class="group"><label>Electricity Expenses</label><input type="number" id="electricExp"></div>
+            <div class="group"><label>Existing Loan EMI</label><input type="number" id="emiSales"></div>
+        </div>
+
+        <div id="incomeSection" class="calc-box" style="display:none;">
+            <h3>Income Basis</h3>
+            <div class="group"><label>Per Day Wage</label><input type="number" id="perDayWage"></div>
+            <div class="group"><label>Monthly Wage</label><input type="number" id="monthlyWage"></div>
+            <div class="group"><label>Personal/Household Expenses</label><input type="number" id="incomeHouseExp"></div>
+            <div class="group"><label>Other Income</label><input type="number" id="otherIncome"></div>
+            <div class="group"><label>Indirect Expenses</label><input type="number" id="indirectExp"></div>
+            <div class="group"><label>Existing Loan EMI</label><input type="number" id="emiIncome"></div>
+        </div>
+
+        <button class="btn-primary" onclick="calculateCashflow()">Calculate Cashflow</button>
+
+        <div id="cashflowResult" class="result-box" style="display:none;">
+            <h3>Result</h3>
+            <p><strong>Total Inflow:</strong> <span id="totalInflow"></span></p>
+            <p><strong>Total Outflow:</strong> <span id="totalOutflow"></span></p>
+            <p><strong>Disposable Income:</strong> <span id="disposableIncome"></span></p>
+            <hr>
+            <h3>Loan Eligibility</h3>
+            <div class="group"><label>Proposed EMI</label><input type="number" id="proposedEmi"></div>
+            <button class="btn-secondary" onclick="calculateEligibility()">Find Loan Amount</button>
+            <p><strong>Eligible Loan Amount:</strong> <span id="eligibleLoan"></span></p>
+            <br>
+            <button class="btn-export" onclick="exportCashflow()">Export Report</button>
+        </div>
+    </section>
+
+    <script src="js/cashflow.js"></script>
+    <script src="js/export.js"></script>
+</body>
+</html>

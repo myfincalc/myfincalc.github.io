@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — VijayFinCalc</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">Vijay <span>FinCalc</span></div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="emi.html">EMI</a>
+      <a href="cashflow.html">Cashflow</a>
+      <a href="admin.html" class="login-btn">Admin</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <h2>Admin Dashboard</h2>
+      <p class="small">View saved visitors and customer reports (stored locally). You can export or clear data from here.</p>
+
+      <div style="display:flex;gap:12px;margin-top:12px;align-items:center">
+        <input id="searchAdmin" placeholder="Search by name or type" style="flex:1;padding:10px;border-radius:8px;border:1px solid #eef4ff">
+        <button id="exportAllExcel" class="primary">Export All Excel</button>
+        <button id="exportAllPdf" class="primary" style="background:#6b4cff">Export All PDF</button>
+        <button id="clearAllLocal" class="primary" style="background:#ff4d4f">Clear All</button>
+      </div>
+
+      <div id="adminList" style="margin-top:16px"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap">© <span id="year"></span> VijayFinCalc — Admin</div></footer>
+
+  <script>document.getElementById('year').innerText = new Date().getFullYear();</script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="js/export.js"></script>
+
+  <script>
+    function loadStorage(key){try{return JSON.parse(localStorage.getItem(key))||[];}catch(e){return []}}
+    function renderAdmin(){
+      const wrapper = document.getElementById('adminList'); wrapper.innerHTML='';
+      const visits = loadStorage('vfc_visitors'); const customers = loadStorage('vfc_customers');
+      const combined = [];
+      visits.forEach(v=> combined.push({kind:'visitor',...v}));
+      customers.forEach(c=> combined.push({kind:'customer',...c}));
+      combined.sort((a,b)=> new Date(b.time||b.created) - new Date(a.time||a.created));
+      combined.forEach(item=>{
+        const card = document.createElement('div'); card.className='card'; card.style.marginBottom='10px';
+        let html = `<div style="display:flex;justify-content:space-between;align-items:center"><div><strong>${item.name||item.email||'Unknown'}</strong> <span style='color:#6b7280;font-weight:500'>${item.kind}</span></div><div style='display:flex;gap:8px'>`;
+        html += `<button class='primary' onclick='exportItem("${item.kind}","${item.name||''}", ${JSON.stringify(item).replace(/'</g,"\'")})'>Export</button>`;
+        html += `<button style='background:#ff4d4f' onclick='deleteItem("${item.kind}","${item.created||item.time}")'>Delete</button>`;
+        html += `</div></div><div style="margin-top:8px;color:#6b7280;font-size:13px"><pre>${JSON.stringify(item,null,2)}</pre></div>`;
+        card.innerHTML = html; wrapper.appendChild(card);
+      });
+    }
+
+    function exportItem(kind,name,obj){
+      try{
+        const customerName = name || (obj && obj.name) || 'export';
+        const ts = new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
+        const filename = `${customerName.replace(/\s+/g,'_')}_export_${ts}.xlsx`;
+        const ws = XLSX.utils.json_to_sheet([obj]); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'Export'); XLSX.writeFile(wb, filename);
+      }catch(e){alert('Export failed');}
+    }
+
+    function deleteItem(kind,ts){
+      if(!confirm('Delete this record?')) return;
+      if(kind==='visitor'){ const arr = loadStorage('vfc_visitors').filter(v=>v.time!==ts); localStorage.setItem('vfc_visitors',JSON.stringify(arr)); }
+      else { const arr = loadStorage('vfc_customers').filter(c=>c.created!==ts); localStorage.setItem('vfc_customers',JSON.stringify(arr)); }
+      renderAdmin();
+    }
+
+    document.getElementById('clearAllLocal').addEventListener('click',()=>{ if(confirm('Clear ALL local data?')){ localStorage.removeItem('vfc_visitors'); localStorage.removeItem('vfc_customers'); renderAdmin(); } });
+    document.getElementById('exportAllExcel').addEventListener('click',()=>{ const v = loadStorage('vfc_visitors'); const c = loadStorage('vfc_customers'); const payload = {visitors:v,customers:c}; const ws = XLSX.utils.json_to_sheet([payload]); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'All'); const ts=new Date().toISOString().slice(0,19).replace(/[:T]/g,'-'); XLSX.writeFile(wb,`vfc_all_${ts}.xlsx`); });
+    document.getElementById('exportAllPdf').addEventListener('click', async ()=>{ // simple PDF of the admin list
+      const element = document.querySelector('main') || document.body;
+      const canvas = await html2canvas(element,{scale:2}); const img = canvas.toDataURL('image/png'); const { jsPDF } = window.jspdf; const pdf = new jsPDF({orientation:'portrait',unit:'px',format:[canvas.width,canvas.height]}); pdf.addImage(img,'PNG',0,0,canvas.width,canvas.height); pdf.save(`vfc_admin_${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.pdf`);
+    });
+    document.getElementById('searchAdmin').addEventListener('input',(e)=>{ const q=e.target.value.toLowerCase(); document.querySelectorAll('#adminList .card').forEach(card=>{ card.style.display = card.innerText.toLowerCase().includes(q)?'block':'none' }) });
+
+    renderAdmin();
+  </script>
+</body>
+</html>

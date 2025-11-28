@@ -1,0 +1,79 @@
+/* VijayFinCalc - Main stylesheet (Modern White + Blue Finance Theme) */
+:root{
+  --bg:#ffffff;
+  --card:#f6f9ff;
+  --muted:#6b7280;
+  --text:#0b1530;
+  --accent:#1f6feb;
+  --accent-2:#1558c9;
+  --glass:rgba(31,111,235,0.06);
+  --success:#00a86b;
+  --danger:#ff4d4f;
+  --radius:12px;
+  --max-width:1100px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,'Helvetica Neue',Arial;color:var(--text);background:linear-gradient(180deg,#f8fbff 0%, #ffffff 100%)}
+.wrap{max-width:var(--max-width);margin:0 auto;padding:20px}
+.site-header{background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.7));backdrop-filter:blur(4px);box-shadow:0 2px 8px rgba(16,24,40,0.04);position:sticky;top:0;z-index:60}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:56px;height:56px;border-radius:10px}
+.brand-title{font-weight:700;font-size:18px}
+.brand-sub{font-size:13px;color:var(--muted)}
+.main-nav{display:flex;gap:12px;align-items:center}
+.main-nav .nav-link{color:var(--muted);text-decoration:none;font-size:14px;padding:8px 10px;border-radius:8px}
+.main-nav .nav-link:hover{background:var(--glass);color:var(--accent)}
+.hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;padding:28px 0}
+.hero-left h1{font-size:28px;margin:0 0 8px}
+.lead{color:var(--muted);margin-bottom:16px}
+.cta-row{display:flex;gap:12px}
+.btn{display:inline-block;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600}
+.btn.primary{background:var(--accent);color:white}
+.btn.ghost{background:transparent;border:1px solid #e6eefc;color:var(--accent)}
+.features{margin-top:16px;padding-left:20px;color:var(--muted)}
+.hero-right .hero-img{width:100%;border-radius:12px;box-shadow:0 10px 30px rgba(16,24,40,0.06)}
+.card{background:var(--card);border-radius:var(--radius);padding:18px;margin-top:18px;box-shadow:0 6px 20px rgba(16,24,40,0.04)}
+.card h2{margin-top:0}
+footer.site-footer{padding:18px;text-align:center;color:var(--muted);margin-top:28px}
+
+/* Calculator pages */
+.calc-panel{background:#fff;border:1px solid #eef4ff;padding:14px;border-radius:12px}
+label{font-size:13px;color:var(--muted);display:block;margin-top:10px}
+input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e8f0ff;background:transparent;color:var(--text);font-size:14px}
+button.primary{background:var(--accent);border:none;padding:10px 14px;border-radius:10px;color:white;font-weight:600;margin-top:12px;cursor:pointer}
+.result-box{background:linear-gradient(180deg,#f8fbff,#ffffff);border:1px solid #eef6ff;padding:10px;border-radius:8px;text-align:center}
+.small{font-size:13px;color:var(--muted)}
+.tabs{display:flex;gap:8px}
+.tab{padding:8px 12px;border-radius:8px;background:#ffffff;border:1px solid #eef6ff;cursor:pointer}
+.tab.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white}
+
+/* Left control strip */
+.left-controls{position:fixed;left:12px;top:140px;width:220px;z-index:70}
+.control-card{background:#fff;border-radius:10px;padding:12px;border:1px solid #eef4ff;box-shadow:0 10px 30px rgba(16,24,40,0.06)}
+.control-card .primary{width:100%;margin:6px 0}
+
+/* Admin panel */
+.admin-modal{position:fixed;right:18px;bottom:18px;width:360px;max-height:70vh;overflow:auto;border-radius:12px;padding:12px;background:#fff;border:1px solid #eef4ff;box-shadow:0 10px 40px rgba(16,24,40,0.06)}
+.visitor-row{padding:8px;border-radius:8px;background:#fbfdff;margin-bottom:8px;border:1px solid #eef6ff}
+
+/* Floating help */
+.float-btn{position:fixed;left:20px;bottom:20px;background:var(--accent);color:#fff;padding:10px 14px;border-radius:12px;cursor:grab;box-shadow:0 8px 30px rgba(31,111,235,0.18)}
+
+/* Chart area */
+#chartWrap{height:220px;margin-top:12px}
+
+/* Responsive */
+@media (max-width:1000px){
+  .hero{grid-template-columns:1fr}
+  .hero-right{order:2}
+  .hero-left{order:1}
+  .main-nav{display:none}
+  .left-controls{display:none}
+}
+
+/* PDF specific (print) */
+@media print{
+  body{background:#fff}
+  .left-controls,.admin-modal,.float-btn,header,footer{display:none}
+}
